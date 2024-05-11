@@ -2,7 +2,7 @@ import json
 import os
 
 
-def extract_vulnerabilities(sarif_file):
+def extract_vulnerabilities(sarif_file,java_project_path):
     with open(sarif_file, 'r') as f:
         data = json.load(f)
 
@@ -14,8 +14,13 @@ def extract_vulnerabilities(sarif_file):
                     messages = []
                     for threadFlow in codeFlow['threadFlows']:
                         for location in threadFlow['locations']:
-                            message = location['location']['message']['text']
-                            messages.append(message)
+                            message = location['location']['message']['text'].split(':')[0]
+                            uri = location['location']['physicalLocation']['artifactLocation']['uri']
+                            startLine = location['location']['physicalLocation']['region']['startLine']
+                            startColumn = location['location']['physicalLocation']['region']['startColumn']
+                            vul_code = get_line_from_file(uri,startLine)
+                            #messages.append(f"{message} in {uri} at line {startLine}, column {startColumn}")
+                            messages.append(f"{message} in {uri} at \"{vul_code}\"  ")
                     if messages:
                         messages[0] = "source: " + messages[0]
                         messages[-1] = "sink: " + messages[-1]
@@ -47,3 +52,9 @@ def outputprinting(all_messages):
     except Exception as e:
         print(f"Error: {e}")
 
+#从项目中获取对应的代码
+def get_line_from_file(uri, startLine):
+    uri = "example-project/micro_service_seclab/" + uri
+    with open(uri, 'r',encoding="utf-8") as file:
+        lines = file.readlines()
+    return lines[startLine - 1].strip()

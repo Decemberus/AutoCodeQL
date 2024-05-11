@@ -1,0 +1,66 @@
+CodeFlow 1:
+source: username  in src/main/java/com/l4yn3/microserviceseclab/controller/IndexController.java at "public List<Student> one(@RequestParam(value = "username") String username) {"  
+dataflow1: username  in src/main/java/com/l4yn3/microserviceseclab/controller/IndexController.java at "return indexLogic.getStudent(username);"  
+dataflow2: username  in src/main/java/com/l4yn3/microserviceseclab/logic/IndexLogic.java at "public List<Student> getStudent(String username) {"  
+dataflow3: username  in src/main/java/com/l4yn3/microserviceseclab/logic/IndexLogic.java at "return indexDb.getStudent(username);"  
+dataflow4: username  in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "public List<Student> getStudent(String username) {"  
+sink: sql in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "return jdbcTemplate.query(sql, ROW_MAPPER);"  
+
+CodeFlow 2:
+source: user_list  in src/main/java/com/l4yn3/microserviceseclab/controller/IndexController.java at "public List<Student> in(@RequestBody List<String> user_list) {"  
+dataflow1: user_list  in src/main/java/com/l4yn3/microserviceseclab/controller/IndexController.java at "return indexLogic.getStudentWithIn(user_list);"  
+dataflow2: user_list  in src/main/java/com/l4yn3/microserviceseclab/logic/IndexLogic.java at "public List<Student> getStudentWithIn(List<String> user_list) {"  
+dataflow3: user_list  in src/main/java/com/l4yn3/microserviceseclab/logic/IndexLogic.java at "return indexDb.getStudentWithIn(user_list);"  
+dataflow4: name_list  in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "public List<Student> getStudentWithIn(List<String> name_list) {"  
+dataflow5: name_list  in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "String sqlWithIn = "select * from students where username in ('"+ Joiner.on("','").join(name_list)+"')";"  
+dataflow6: join(...)  in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "String sqlWithIn = "select * from students where username in ('"+ Joiner.on("','").join(name_list)+"')";"  
+sink: sqlWithIn in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "return jdbcTemplate.query(sqlWithIn, ROW_MAPPER);"  
+
+CodeFlow 3:
+source: user  in src/main/java/com/l4yn3/microserviceseclab/controller/IndexController.java at "public List<Student> objectParam(@RequestBody Student user) {"  
+dataflow1: getUsername(...)  in src/main/java/com/l4yn3/microserviceseclab/controller/IndexController.java at "return indexLogic.getStudent(user.getUsername());"  
+dataflow2: username  in src/main/java/com/l4yn3/microserviceseclab/logic/IndexLogic.java at "public List<Student> getStudent(String username) {"  
+dataflow3: username  in src/main/java/com/l4yn3/microserviceseclab/logic/IndexLogic.java at "return indexDb.getStudent(username);"  
+dataflow4: username  in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "public List<Student> getStudent(String username) {"  
+sink: sql in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "return jdbcTemplate.query(sql, ROW_MAPPER);"  
+
+CodeFlow 4:
+source: user  in src/main/java/com/l4yn3/microserviceseclab/controller/IndexController.java at "public List<Student> objectParam(@RequestBody Student user) {"  
+dataflow1: user  in src/main/java/com/l4yn3/microserviceseclab/controller/IndexController.java at "return indexLogic.getStudent(user.getUsername());"  
+dataflow2: parameter this  in src/main/java/com/l4yn3/microserviceseclab/data/Student.java at "public String getUsername() {"  
+dataflow3: username  in src/main/java/com/l4yn3/microserviceseclab/data/Student.java at "return username;"  
+dataflow4: getUsername(...)  in src/main/java/com/l4yn3/microserviceseclab/controller/IndexController.java at "return indexLogic.getStudent(user.getUsername());"  
+dataflow5: username  in src/main/java/com/l4yn3/microserviceseclab/logic/IndexLogic.java at "public List<Student> getStudent(String username) {"  
+dataflow6: username  in src/main/java/com/l4yn3/microserviceseclab/logic/IndexLogic.java at "return indexDb.getStudent(username);"  
+dataflow7: username  in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "public List<Student> getStudent(String username) {"  
+sink: sql in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "return jdbcTemplate.query(sql, ROW_MAPPER);"  
+
+CodeFlow 5:
+source: user  in src/main/java/com/l4yn3/microserviceseclab/controller/IndexController.java at "public List<Teacher> objectLomBok(@RequestBody Teacher user) {"  
+dataflow1: getName(...)  in src/main/java/com/l4yn3/microserviceseclab/controller/IndexController.java at "return indexLogic.getTeacherById(user.getName());"  
+dataflow2: userName  in src/main/java/com/l4yn3/microserviceseclab/logic/IndexLogic.java at "public List<Teacher> getTeacherById(String userName) {"  
+dataflow3: userName  in src/main/java/com/l4yn3/microserviceseclab/logic/IndexLogic.java at "return indexDb.getTeacherById(userName);"  
+dataflow4: userName  in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "public List<Teacher> getTeacherById(String userName) {"  
+sink: sqlWithInt in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "return jdbcTemplate.query(sqlWithInt, ROW_MAPPER_TEACHER);"  
+
+CodeFlow 6:
+source: user  in src/main/java/com/l4yn3/microserviceseclab/controller/IndexController.java at "public List<Teacher> objectLomBok(@RequestBody Teacher user) {"  
+dataflow1: user  in src/main/java/com/l4yn3/microserviceseclab/controller/IndexController.java at "return indexLogic.getTeacherById(user.getName());"  
+dataflow2: parameter this  in src/main/java/com/l4yn3/microserviceseclab/data/Teacher.java at "private String name;"  
+dataflow3: this.name  in src/main/java/com/l4yn3/microserviceseclab/data/Teacher.java at "private String name;"  
+dataflow4: getName(...)  in src/main/java/com/l4yn3/microserviceseclab/controller/IndexController.java at "return indexLogic.getTeacherById(user.getName());"  
+dataflow5: userName  in src/main/java/com/l4yn3/microserviceseclab/logic/IndexLogic.java at "public List<Teacher> getTeacherById(String userName) {"  
+dataflow6: userName  in src/main/java/com/l4yn3/microserviceseclab/logic/IndexLogic.java at "return indexDb.getTeacherById(userName);"  
+dataflow7: userName  in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "public List<Teacher> getTeacherById(String userName) {"  
+sink: sqlWithInt in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "return jdbcTemplate.query(sqlWithInt, ROW_MAPPER_TEACHER);"  
+
+CodeFlow 7:
+source: optinal_username  in src/main/java/com/l4yn3/microserviceseclab/controller/IndexController.java at "public List<Student> optionalLike(@RequestParam(value = "username") Optional<String> optinal_username) {"  
+dataflow1: optinal_username  in src/main/java/com/l4yn3/microserviceseclab/controller/IndexController.java at "return indexLogic.getStudentWithOptional(optinal_username);"  
+dataflow2: username  in src/main/java/com/l4yn3/microserviceseclab/logic/IndexLogic.java at "public List<Student> getStudentWithOptional(Optional<String> username) {"  
+dataflow3: username  in src/main/java/com/l4yn3/microserviceseclab/logic/IndexLogic.java at "return indexDb.getStudentWithOptional(username);"  
+dataflow4: username  in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "public List<Student> getStudentWithOptional(Optional<String> username) {"  
+dataflow5: username  in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "String sqlWithOptional = "select * from students where username like '%" + username.get() + "%'";"  
+dataflow6: get(...)  in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "String sqlWithOptional = "select * from students where username like '%" + username.get() + "%'";"  
+sink: sqlWithOptional in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "return jdbcTemplate.query(sqlWithOptional, ROW_MAPPER);"  
+

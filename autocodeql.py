@@ -39,8 +39,8 @@ if __name__ == '__main__':
     query_path = args.query_path
 
     #构建codeql数据库
-    databasecreating(codeql_path,database_path,java_project_path)
+    #databasecreating(codeql_path,database_path,java_project_path)
     #执行codeql扫描
-    codeqlquery(codeql_path,database_path,results_path,query_path)
+    #codeqlquery(codeql_path,database_path,results_path,query_path)
     #提取扫描结果
-    extract_vulnerabilities(results_path)
+    extract_vulnerabilities(results_path,java_project_path)
