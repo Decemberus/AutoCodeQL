@@ -47,7 +47,7 @@
       },
       "extensions" : [ {
         "name" : "example-query",
-        "semanticVersion" : "0.0.0",
+        "semanticVersion" : "0.0.0+e7aec8a607199f8e84c8ef94739a37a16fe92b6e",
         "locations" : [ {
           "uri" : "file:///D:/Code_Project/Python/AutoCodeQL/ql-query-example/",
           "description" : {
