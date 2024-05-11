@@ -42,7 +42,8 @@
 ```
 
 
-
+待测试的java项目来自
+https://github.com/l4yn3/micro_service_seclab.git
 
 
 ## 开发小日志
@@ -108,7 +109,19 @@ Error was: Cannot process query metadata for a query without the '@kind' metadat
 我的想法是从sarif中提取我们使用vscode的codeql相同的信息，然后输出为一个文件，也很好实现
 
 
-
+最终的效果为
+```
+CodeFlow 6:
+source: user  in src/main/java/com/l4yn3/microserviceseclab/controller/IndexController.java at "public List<Teacher> objectLomBok(@RequestBody Teacher user) {"  
+dataflow1: user  in src/main/java/com/l4yn3/microserviceseclab/controller/IndexController.java at "return indexLogic.getTeacherById(user.getName());"  
+dataflow2: parameter this  in src/main/java/com/l4yn3/microserviceseclab/data/Teacher.java at "private String name;"  
+dataflow3: this.name  in src/main/java/com/l4yn3/microserviceseclab/data/Teacher.java at "private String name;"  
+dataflow4: getName(...)  in src/main/java/com/l4yn3/microserviceseclab/controller/IndexController.java at "return indexLogic.getTeacherById(user.getName());"  
+dataflow5: userName  in src/main/java/com/l4yn3/microserviceseclab/logic/IndexLogic.java at "public List<Teacher> getTeacherById(String userName) {"  
+dataflow6: userName  in src/main/java/com/l4yn3/microserviceseclab/logic/IndexLogic.java at "return indexDb.getTeacherById(userName);"  
+dataflow7: userName  in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "public List<Teacher> getTeacherById(String userName) {"  
+sink: sqlWithInt in src/main/java/com/l4yn3/microserviceseclab/db/IndexDb.java at "return jdbcTemplate.query(sqlWithInt, ROW_MAPPER_TEACHER);"  
+```
 
 
 
